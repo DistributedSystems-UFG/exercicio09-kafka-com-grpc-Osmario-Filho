@@ -1,0 +1,5 @@
+BROKER_ADDR = '172.31.91.151'
+BROKER_PORT = '9092'
+
+TOPIC_RAW = 'temperature_readings'
+TOPIC_STATS = 'temperature_stats'

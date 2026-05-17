@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package temperature_service;
+
+service TemperatureService {
+  // Ultima estatistica registrada (entre todos os sensores)
+  rpc GetLatestStats (EmptyMessage) returns (TemperatureStats) {}
+  // Ultima estatistica registrada para um sensor especifico
+  rpc GetLatestStatsBySensor (SensorID) returns (TemperatureStats) {}
+  // Historico de estatisticas para um sensor (mais recentes primeiro)
+  rpc GetHistory (HistoryRequest) returns (TemperatureStatsList) {}
+  // Lista de IDs de sensores conhecidos
+  rpc ListSensors (EmptyMessage) returns (SensorList) {}
+  // Quantidade total de estatisticas armazenadas
+  rpc CountStats (EmptyMessage) returns (StatsCount) {}
+}
+
+message EmptyMessage {}
+
+message SensorID {
+  string sensor_id = 1;
+}
+
+message HistoryRequest {
+  string sensor_id = 1;
+  uint32 limit = 2;
+}
+
+message TemperatureStats {
+  string sensor_id = 1;
+  double avg_temperature = 2;
+  double min_temperature = 3;
+  double max_temperature = 4;
+  uint32 sample_count = 5;
+  string window_start = 6;
+  string window_end = 7;
+  string computed_at = 8;
+}
+
+message TemperatureStatsList {
+  repeated TemperatureStats stats = 1;
+}
+
+message SensorList {
+  repeated string sensor_ids = 1;
+}
+
+message StatsCount {
+  uint32 count = 1;
+}
